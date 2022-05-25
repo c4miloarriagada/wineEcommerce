@@ -47,7 +47,124 @@ const postProduct = async (req, res = response) => {
   res.status(201).json(product);
 };
 
+//---------------------------------
+const getWinesABC = async( req, res = response )  =>{
+
+  const { limit = 10 , start = 0 } = req.query;
+  const query = { state: true  };
+
+  const [total, products] = await Promise.all([
+    Product.countDocuments(query),
+    Product.find(query).skip(Number(start)).limit(Number(limit)),
+  ]);
+
+  let sortAbc = products.sort(function(a,b){
+    if(a.name.toLowerCase() > b.name.toLowerCase()){
+      return 1;
+  }
+  if(b.name.toLowerCase() > a.name.toLowerCase()){
+      return -1
+  }
+  return 0
+})
+
+
+  res.json({
+    total,
+    sortAbc
+  });
+
+}
+const getWinesCBA = async( req, res = response )  =>{
+
+  const { limit = 10 , start = 0 } = req.query;
+  const query = { state: true  };
+
+  const [total, products] = await Promise.all([
+    Product.countDocuments(query),
+    Product.find(query).skip(Number(start)).limit(Number(limit)),
+  ]);
+
+  let sortAbc = products.sort(function(a,b){
+    if(b.name.toLowerCase() > a.name.toLowerCase()){
+      return 1;
+  }
+  if(a.name.toLowerCase() > b.name.toLowerCase()){
+      return -1
+  }
+  return 0
+})
+
+
+  res.json({
+    total,
+    sortAbc
+  });
+
+}
+
+const getWineshigherprice = async( req, res = response )  =>{
+
+  const { limit = 10 , start = 0 } = req.query;
+  const query = { state: true  };
+
+  const [total, products] = await Promise.all([
+    Product.countDocuments(query),
+    Product.find(query).skip(Number(start)).limit(Number(limit)),
+  ]);
+
+  let sortAbc = products.sort(function(a,b){
+    if(b.price > a.price){
+      return 1;
+  }
+  if(a.price > b.price){
+      return -1
+  }
+  return 0
+})
+
+
+  res.json({
+    total,
+    sortAbc
+  });
+
+}
+const getWineslowerprice = async( req, res = response )  =>{
+
+  const { limit = 10 , start = 0 } = req.query;
+  const query = { state: true  };
+
+  const [total, products] = await Promise.all([
+    Product.countDocuments(query),
+    Product.find(query).skip(Number(start)).limit(Number(limit)),
+  ]);
+
+  let sortAbc = products.sort(function(a,b){
+    if(a.price > b.price){
+      return 1;
+  }
+  if(b.price > a.price){
+      return -1
+  }
+  return 0
+})
+
+
+  res.json({
+    total,
+    sortAbc
+  });
+
+}
+
+
+
 module.exports = {
   postProduct,
-  getWines
+  getWines,
+  getWinesABC,
+  getWinesCBA,
+  getWineshigherprice,
+  getWineslowerprice
 };
